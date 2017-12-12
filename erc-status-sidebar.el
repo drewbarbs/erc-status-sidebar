@@ -110,6 +110,8 @@
 If NO-CREATION is non-nil, the window is not created."
   (let ((sidebar-window (get-buffer-window erc-status-sidebar-buffer-name)))
     (unless (or sidebar-window no-creation)
+      (with-current-buffer (erc-status-sidebar-get-buffer)
+        (setq-local vertical-scroll-bar nil))
       (setq sidebar-window (erc-status-sidebar-display-window))
       (set-window-dedicated-p sidebar-window t)
       (set-window-parameter sidebar-window 'no-delete-other-windows t)
