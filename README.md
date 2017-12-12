@@ -39,3 +39,7 @@ To kill the sidebar buffer and close the sidebar on all frames, use
 Credit to [`sidebar.el`](https://github.com/sebastiencs/sidebar.el)
 and [`outline-toc.el`](https://github.com/abingham/outline-toc.el),
 from which all the sidebar window management ideas were lifted.
+
+## License
+
+[GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html)

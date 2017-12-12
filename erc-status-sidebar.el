@@ -3,6 +3,7 @@
 ;; Author: Andrew Barbarello
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "25"))
+;; URL: https://github.com/drewbarbs/erc-status-sidebar
 
 ;; This file is not part of GNU Emacs.
 
