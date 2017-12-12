@@ -75,7 +75,7 @@
   :type 'string
   :group 'erc-status-sidebar)
 
-(defcustom erc-status-sidebar-mode-line-format ""
+(defcustom erc-status-sidebar-mode-line-format "ERC Status"
   "Mode line format for the status sidebar."
   :type 'string
   :group 'erc-status-sidebar)
