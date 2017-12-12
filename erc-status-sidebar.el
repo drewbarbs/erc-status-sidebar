@@ -64,6 +64,7 @@
 (require 'erc)
 (require 'erc-track)
 (require 'fringe)
+(require 'seq)
 
 (defgroup erc-status-sidebar nil
   "A sidebar for ERC channel status."
@@ -282,7 +283,8 @@ to the `window-configuration-change-hook'"
   ;; obscured then the window can be resized
   (setq-local auto-hscroll-mode nil)
   ;; Don't want Malabarba's beacon mode blinking in the sidebar buffer
-  (setq-local beacon-mode nil)
+  (if (boundp 'beacon-mode)
+      (setq-local beacon-mode nil))
   (setq cursor-type nil
 	buffer-read-only t
 	mode-line-format erc-status-sidebar-mode-line-format
