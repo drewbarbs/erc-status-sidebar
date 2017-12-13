@@ -273,9 +273,9 @@ hooks that invoke it with arguments."
 Note that preserve status needs to be reset when the window is
 manually resized, so `erc-status-sidebar-mode' adds this function
 to the `window-configuration-change-hook'"
-  (when (eq (selected-window) (erc-status-sidebar-get-window))
-    (unless (or (eq (window-total-width) (window-min-size nil t))
-                (not (fboundp 'window-preserve-size)))
+  (when (and (eq (selected-window) (erc-status-sidebar-get-window))
+             (fboundp 'window-preserve-size))
+    (unless (eq (window-total-width) (window-min-size nil t))
       (apply 'window-preserve-size (selected-window) t t nil))))
 
 (define-derived-mode erc-status-sidebar-mode special-mode "ERC Sidebar"
