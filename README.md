@@ -34,6 +34,12 @@ sidebar on all frames.
 To kill the sidebar buffer and close the sidebar on all frames, use
 `M-x erc-status-sidebar-kill`.
 
+## Configuration
+
+To specify a list message types that *do not* update the status
+sidebar (e.g. `JOIN` and `PART` messages), update the "Erc Track
+Exclude Types" custom setting: `M-x customize-group <RET> erc-track`.
+
 ## Acknowledgments
 
 Credit to [`sidebar.el`](https://github.com/sebastiencs/sidebar.el)
