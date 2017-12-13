@@ -2,7 +2,7 @@
 
 ;; Author: Andrew Barbarello
 ;; Version: 0.1
-;; Package-Requires: ((emacs "25"))
+;; Package-Requires: ((emacs "24.5") (seq "2.3"))
 ;; URL: https://github.com/drewbarbs/erc-status-sidebar
 
 ;; This file is not part of GNU Emacs.
@@ -274,8 +274,9 @@ Note that preserve status needs to be reset when the window is
 manually resized, so `erc-status-sidebar-mode' adds this function
 to the `window-configuration-change-hook'"
   (when (eq (selected-window) (erc-status-sidebar-get-window))
-    (unless (eq (window-total-width) (window-min-size nil t))
-      (window-preserve-size (selected-window) t t))))
+    (unless (or (eq (window-total-width) (window-min-size nil t))
+                (not (fboundp 'window-preserve-size)))
+      (apply 'window-preserve-size (selected-window) t t nil))))
 
 (define-derived-mode erc-status-sidebar-mode special-mode "ERC Sidebar"
   "Major mode for ERC status sidebar"
