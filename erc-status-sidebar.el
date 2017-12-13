@@ -32,7 +32,7 @@
 ;;; Commentary:
 ;;
 ;; This package is provides a hexchat-like status bar for joined
-;; channels in ERC. It relies on the `erc-track' module, and displays
+;; channels in ERC.  It relies on the `erc-track' module, and displays
 ;; all the same information erc-track does in the mode line, but in an
 ;; alternative format.
 ;;
@@ -101,7 +101,7 @@
   :group 'erc-status-sidebar)
 
 (defun erc-status-sidebar-display-window ()
-  "Display the status buffer in a side window. Return the new window."
+  "Display the status buffer in a side window.  Return the new window."
   (display-buffer (erc-status-sidebar-get-buffer)
                   `(display-buffer-in-side-window . ((side . left) (window-width . ,erc-status-sidebar-width)))))
 
@@ -142,7 +142,7 @@ If called with prefix argument (ALL-FRAMES non-nil), the sidebar
 will be closed on all frames.
 
 The erc-status-sidebar buffer is left alone, but the window
-containing it on the current frame is closed. See
+containing it on the current frame is closed.  See
 `erc-status-sidebar-kill'"
   (interactive "P")
   (mapcar #'delete-window
@@ -184,8 +184,8 @@ containing it on the current frame is closed. See
                                                &optional num-messages erc-face)
   "Format CHANNAME for display in the sidebar.
 
-If NUM-MESSAGES is non-nil, append it to the channel name. If
-ERC-FACE is non-nil, apply it to channel name. If it is equal to
+If NUM-MESSAGES is non-nil, append it to the channel name.  If
+ERC-FACE is non-nil, apply it to channel name.  If it is equal to
 `erc-default-face', also apply bold property to make the channel
 name stand out."
   (when num-messages
