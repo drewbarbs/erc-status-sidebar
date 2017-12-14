@@ -167,6 +167,14 @@ containing it on the current frame is closed.  See
           (erc-status-sidebar-mode)
           (erc-status-sidebar-refresh))))))
 
+;;;###autoload
+(defun erc-status-sidebar-toggle ()
+  "Toggle the sidebar open/closed on the current frame."
+  (interactive)
+  (if (get-buffer-window erc-status-sidebar-buffer-name nil)
+      (erc-status-sidebar-close)
+    (erc-status-sidebar-open)))
+
 (defun erc-status-sidebar-get-channame (buffer)
   "Return name of BUFFER with all leading \"#\" characters removed."
   (let ((s (buffer-name buffer)))
