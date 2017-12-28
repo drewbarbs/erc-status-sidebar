@@ -1,4 +1,7 @@
 # `erc-status-sidebar`
+
+[![MELPA](https://melpa.org/packages/erc-status-sidebar-badge.svg)](https://melpa.org/#/erc-status-sidebar)
+
 A [hexchat](https://hexchat.github.io/)-like activity overview for ERC
 channels. This an alternative view for the `erc-track` module. It
 displays all the same information `erc-track` puts in the mode line, but
