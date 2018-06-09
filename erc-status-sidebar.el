@@ -242,7 +242,8 @@ name stand out."
       (let ((buf (get-text-property pos 'erc-buf)))
         (when buf
           (select-window window)
-          (switch-to-buffer-other-window buf))))))
+          (display-buffer buf
+                          '(display-buffer-reuse-mode-window . (mode erc-mode))))))))
 
 (defvar erc-status-sidebar-mode-map
   (let ((map (make-sparse-keymap)))
