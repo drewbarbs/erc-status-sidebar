@@ -1,56 +1,50 @@
-;;; erc-status-sidebar.el --- a hexchat-like activity overview for ERC channels
+;;; erc-status-sidebar.el --- Hexchat-like activity overview for ERC
+
+;; Copyright (C) 2017, 2020 Free Software Foundation, Inc.
 
 ;; Author: Andrew Barbarello
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "24.5") (seq "2.3"))
 ;; URL: https://github.com/drewbarbs/erc-status-sidebar
 
-;; This file is not part of GNU Emacs.
+;; This file is part of GNU Emacs.
 
-;;; License:
-;;
-;; This program is free software: you can redistribute it and/or modify
+;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
+
+;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;;
+
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
-;;
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
+
 ;;; Commentary:
-;;
+
 ;; This package is provides a hexchat-like status bar for joined
 ;; channels in ERC.  It relies on the `erc-track' module, and displays
-;; all the same information erc-track does in the mode line, but in an
-;; alternative format.
-;;
-;; Credit to sidebar.el (https://github.com/sebastiencs/sidebar.el)
-;; and outline-toc.el (https://github.com/abingham/outline-toc.el),
-;; from which all the sidebar window management ideas were lifted.
-;;
-;; # Setup
-;;
-;; To open the ERC status sidebar in the current frame:
-;;
-;; M-x erc-status-sidebar-open
-;;
-;; Ensure the `erc-track' module is active (a member of
-;; `erc-modules'). This is the default.
-;;
-;; To close the sidebar on the current frame:
-;;
-;; M-x erc-status-sidebar-close
-;;
-;; Use a prefix argument to close the sidebar on all frames.
-;;
-;; To kill the sidebar buffer and close the sidebar on all frames:
-;;
-;; M-x erc-status-sidebar-kill
+;; all of the same information that `erc-track' does in the mode line,
+;; but in an alternative format in form of a sidebar.
+
+;; Shout out to sidebar.el <https://github.com/sebastiencs/sidebar.el>
+;; and outline-toc.el <https://github.com/abingham/outline-toc.el> for
+;; the sidebar window management ideas.
+
+;; Usage:
+
+;; Use M-x erc-status-sidebar-open RET to open the ERC status sidebar
+;; in the current frame.  Make sure that the `erc-track' module is
+;; active (this is the default).
+
+;; Use M-x erc-status-sidebar-close RET to close the sidebar on the
+;; current frame.  With a prefix argument, it closes the sidebar on
+;; all frames.
+
+;; Use M-x erc-status-sidebar-kill RET to kill the sidebar buffer and
+;; close the sidebar on all frames.
 
 ;;; Code:
 
@@ -83,20 +77,24 @@
   :type 'number
   :group 'erc-status-sidebar)
 
-(defcustom erc-status-sidebar-channel-sort 'erc-status-sidebar-default-chansort
+(defcustom erc-status-sidebar-channel-sort
+  'erc-status-sidebar-default-chansort
   "Sorting function used to determine order of channels in the sidebar."
   :type 'function
   :group 'erc-status-sidebar)
 
-(defcustom erc-status-sidebar-channel-format 'erc-status-sidebar-default-chan-format
+(defcustom erc-status-sidebar-channel-format
+  'erc-status-sidebar-default-chan-format
   "Function used to format channel names for display in the sidebar."
   :type 'function
   :group 'erc-status-sidebar)
 
 (defun erc-status-sidebar-display-window ()
   "Display the status buffer in a side window.  Return the new window."
-  (display-buffer (erc-status-sidebar-get-buffer)
-                  `(display-buffer-in-side-window . ((side . left) (window-width . ,erc-status-sidebar-width)))))
+  (display-buffer
+   (erc-status-sidebar-get-buffer)
+   `(display-buffer-in-side-window . ((side . left)
+                                      (window-width . ,erc-status-sidebar-width)))))
 
 (defun erc-status-sidebar-get-window (&optional no-creation)
   "Return the created/existing window displaying the status buffer.
@@ -109,12 +107,12 @@ If NO-CREATION is non-nil, the window is not created."
       (setq sidebar-window (erc-status-sidebar-display-window))
       (set-window-dedicated-p sidebar-window t)
       (set-window-parameter sidebar-window 'no-delete-other-windows t)
-      ;; don't cycle to this window with `other-window'
+      ;; Don't cycle to this window with `other-window'.
       (set-window-parameter sidebar-window 'no-other-window t)
       (internal-show-cursor sidebar-window nil)
       (set-window-fringes sidebar-window 0 0)
-      ;; set a custom display table so the window doesn't show a
-      ;; truncation symbol when a channel name is too big
+      ;; Set a custom display table so the window doesn't show a
+      ;; truncation symbol when a channel name is too big.
       (let ((dt (make-display-table)))
         (set-window-display-table sidebar-window dt)
         (set-display-table-slot dt 'truncation ?\ )))
@@ -136,7 +134,7 @@ will be closed on all frames.
 
 The erc-status-sidebar buffer is left alone, but the window
 containing it on the current frame is closed.  See
-`erc-status-sidebar-kill'"
+`erc-status-sidebar-kill'."
   (interactive "P")
   (mapcar #'delete-window
           (get-buffer-window-list (erc-status-sidebar-get-buffer)
@@ -216,8 +214,9 @@ name stand out."
                 (cnlen (length channame)))
            (put-text-property 0 cnlen 'erc-buf chanbuf channame)
            (put-text-property 0 cnlen 'mouse-face 'highlight channame)
-           (put-text-property 0 cnlen 'help-echo
-                              "mouse-1: switch to buffer in other window" channame)
+           (put-text-property
+            0 cnlen 'help-echo
+            "mouse-1: switch to buffer in other window" channame)
            (insert channame "\n")))))))
 
 (defun erc-status-sidebar-kill ()
@@ -273,7 +272,7 @@ hooks that invoke it with arguments."
 
 Note that preserve status needs to be reset when the window is
 manually resized, so `erc-status-sidebar-mode' adds this function
-to the `window-configuration-change-hook'"
+to the `window-configuration-change-hook'."
   (when (and (eq (selected-window) (erc-status-sidebar-get-window))
              (fboundp 'window-preserve-size))
     (unless (eq (window-total-width) (window-min-size nil t))
@@ -282,12 +281,12 @@ to the `window-configuration-change-hook'"
 (define-derived-mode erc-status-sidebar-mode special-mode "ERC Sidebar"
   "Major mode for ERC status sidebar"
   ;; Don't scroll the buffer horizontally, if a channel name is
-  ;; obscured then the window can be resized
+  ;; obscured then the window can be resized.
   (setq-local auto-hscroll-mode nil)
   (setq cursor-type nil
-	buffer-read-only t
-	mode-line-format erc-status-sidebar-mode-line-format
-	header-line-format erc-status-sidebar-header-line-format)
+        buffer-read-only t
+        mode-line-format erc-status-sidebar-mode-line-format
+        header-line-format erc-status-sidebar-header-line-format)
   (erc-status-sidebar-set-window-preserve-size)
 
   (add-hook 'window-configuration-change-hook
@@ -297,7 +296,7 @@ to the `window-configuration-change-hook'"
 
   ;; `change-major-mode-hook' is run *before* the
   ;; erc-status-sidebar-mode initialization code, so it won't undo the
-  ;; add-hook's we did in the previous expressions
+  ;; add-hook's we did in the previous expressions.
   (add-hook 'change-major-mode-hook #'erc-status-sidebar-mode--unhook nil t)
   (add-hook 'kill-buffer-hook #'erc-status-sidebar-mode--unhook nil t)
   :group 'erc-status-sidebar)
